@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Surprise</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onclick="startPlaylist()"> <div id="audio-container">
+        <audio id="track1"><source src="m1.ogg" type="audio/ogg"></audio>
+        <audio id="track2"><source src="m2.ogg" type="audio/ogg"></audio>
+        <audio id="track3"><source src="m3.ogg" type="audio/ogg"></audio>
+    </div>
+
+    <div class="phone-container">
+        <div id="screen1" class="screen active">
+            <div class="loader-content">
+                <img src="pic1.jpeg" alt="loading" class="floating">
+                <p>Loading your 🥰birthday🤗 surprise...</p>
+                <div class="progress-bar"><div class="progress"></div></div>
+            </div>
+        </div>
+
+        <div id="screen2" class="screen">
+            <div class="card">
+                <img src="https://media.tenor.com/2863690623136204031/tenor.gif" class="character">
+                <img src="pic3.jpeg" class="cake">
+                <h3>A Cutiepie was born today!</h3>
+                <p>Yes, it's YOU! A little surprise awaits...</p>
+                <button onclick="nextScreen(3)">Start the surprise</button>
+            </div>
+        </div>
+
+        <div id="screen3" class="screen">
+            <div class="card">
+                <div class="cake-container">
+                    <div id="candle" class="candle hidden">
+                        <div class="flame hidden"></div>
+                    </div>
+                    <img id="cake-img" src="https://cdn-icons-png.flaticon.com/512/2682/2682340.png" class="cake">
+                </div>
+                <h2 id="cake-status">For the Birthday Star!</h2>
+                <button id="cake-action-btn" onclick="handleCake()">Decorate Cake</button>
+            </div>
+        </div>
+
+        <div class="bg-elements"></div>
+        <div class="bg-hearts">
+            <div class="heart">😎</div>
+            <div class="heart">🥰</div>
+            <div class="heart">💖</div>
+            <div class="heart">✨</div>
+            <div class="heart">🌸</div>
+        </div>
+
+        <div id="screen4" class="screen">
+            <h3>Pop all 4 balloons</h3>
+            <div class="balloon-container">
+                <div class="balloon" onclick="pop(this, 'You')">🎈</div>
+                <div class="balloon" onclick="pop(this, 'are')">🎈</div>
+                <div class="balloon" onclick="pop(this, 'the')">🎈</div>
+                <div class="balloon" onclick="pop(this, 'Best Bacha!')">🎈</div>
+            </div>
+            <div id="balloon-msg"></div>
+            <button id="ball-next" class="hidden" onclick="nextScreen(5)">Next →</button>
+        </div>
+
+        <div id="screen5" class="screen">
+            <h3>Some Sweet Moments</h3>
+            <img src="pic4.jpeg" class="cake">
+            <button onclick="nextScreen(6)">Open My Message</button>
+        </div>
+
+        <div id="screen6" class="screen">
+            <div class="card final-card">
+                <p>Happy Birthday, Cutiepie! You deserve all the happiness in the world... sorry for everything today only i m giving this to nandu i dont know i will stay till ur birthday or not, today u teach me finance i got too hurt, really i felt to bad, its my mistkae only sorry.if i stop talking to me, ,eans i did something too bad,in regret only may i wont talk,its doesnt mean we r enamy.if u want any help just text me.today i will give to nandu, i will talking to u means i will only give u . else nandu will give u on 31st jan.but today morning i will give him </p>
+                <button onclick="location.reload()">Replay ↻</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
