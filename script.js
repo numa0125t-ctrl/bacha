@@ -1,4 +1,17 @@
-// 1. Playlist Logic (Starts on body click)
+// --- 0. Password Logic ---
+function checkPassword() {
+    const userPass = prompt("Enter the secret code to open your surprise:");
+    if (userPass === "0102") {
+        document.getElementById('main-content').classList.remove('hidden');
+        startPlaylist(); // Starts music after password entry
+    } else {
+        alert("Incorrect code! Locked.");
+        location.reload();
+    }
+}
+window.onload = checkPassword;
+
+// --- 1. Playlist Logic ---
 let audioStarted = false;
 const tracks = [
     document.getElementById('track1'),
@@ -14,14 +27,14 @@ function startPlaylist() {
 
 function playTrack(index) {
     if (index >= tracks.length) {
-        playTrack(0); // Loop back
+        playTrack(0);
         return;
     }
     tracks[index].play().catch(() => { audioStarted = false; });
     tracks[index].onended = () => playTrack(index + 1);
 }
 
-// 2. Background Animation
+// --- 2. Animations & Navigation ---
 const bgContainer = document.querySelector('.bg-elements');
 const emojis = ['❤️', '🥰','🤗','💖', '✨', '🌸', '🎈', '🍬'];
 
@@ -31,21 +44,18 @@ function createFloatingEmoji() {
     emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
     emoji.style.left = Math.random() * 100 + '%';
     emoji.style.animationDuration = (Math.random() * 3 + 4) + 's';
-    emoji.style.fontSize = (Math.random() * 10 + 20) + 'px';
     bgContainer.appendChild(emoji);
     setTimeout(() => emoji.remove(), 6000);
 }
 setInterval(createFloatingEmoji, 600);
 
-// 3. Navigation
 function nextScreen(screenNum) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(`screen${screenNum}`);
-    if(target) target.classList.add('active');
+    document.getElementById(`screen${screenNum}`).classList.add('active');
 }
 setTimeout(() => nextScreen(2), 3500);
 
-// 4. Interaction Logic
+// --- 3. Interaction Logic ---
 let cakeStep = 0;
 function handleCake() {
     const btn = document.getElementById('cake-action-btn');
@@ -61,11 +71,9 @@ function handleCake() {
     } else if (cakeStep === 2) {
         document.getElementById('cake-img').src = "pic2.jpeg"; 
         document.getElementById('candle').classList.add('hidden');
-        status.innerText = "Yummy! Best day ever!";
+        status.innerText = "Yummy!";
         btn.innerText = "Pop some balloons! →";
-    } else {
-        nextScreen(4);
-    }
+    } else { nextScreen(4); }
     cakeStep++;
 }
 
