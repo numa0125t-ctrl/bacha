@@ -44,6 +44,7 @@ body {
 
 .screen.active { opacity: 1; pointer-events: all; }
 
+/* Image sizing fix */
 .floating {
     animation: floatIcon 3s infinite ease-in-out;
     max-width: 100%;
