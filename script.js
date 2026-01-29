@@ -3,7 +3,7 @@ function checkPassword() {
     const userPass = prompt("Enter the secret code to open your surprise:");
     if (userPass === "0102") {
         document.getElementById('main-content').classList.remove('hidden');
-        startPlaylist(); // Starts music after password entry
+        startPlaylist();
     } else {
         alert("Incorrect code! Locked.");
         location.reload();
@@ -13,78 +13,68 @@ window.onload = checkPassword;
 
 // --- 1. Playlist Logic ---
 let audioStarted = false;
-const tracks = [
-    document.getElementById('track1'),
-    document.getElementById('track2'),
-    document.getElementById('track3')
-];
-
+const tracks = [document.getElementById('track1'), document.getElementById('track2'), document.getElementById('track3')];
 function startPlaylist() {
-    if (audioStarted) return; 
+    if (audioStarted) return;
     audioStarted = true;
+    function playTrack(index) {
+        if (index >= tracks.length) index = 0;
+        tracks[index].play().catch(() => { audioStarted = false; });
+        tracks[index].onended = () => playTrack(index + 1);
+    }
     playTrack(0);
 }
 
-function playTrack(index) {
-    if (index >= tracks.length) {
-        playTrack(0);
-        return;
-    }
-    tracks[index].play().catch(() => { audioStarted = false; });
-    tracks[index].onended = () => playTrack(index + 1);
-}
-
-// --- 2. Animations & Navigation ---
-const bgContainer = document.querySelector('.bg-elements');
-const emojis = ['❤️', '🥰','🤗','💖', '✨', '🌸', '🎈', '🍬'];
-
-function createFloatingEmoji() {
-    const emoji = document.createElement('div');
-    emoji.className = 'floating-item';
-    emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-    emoji.style.left = Math.random() * 100 + '%';
-    emoji.style.animationDuration = (Math.random() * 3 + 4) + 's';
-    bgContainer.appendChild(emoji);
-    setTimeout(() => emoji.remove(), 6000);
-}
-setInterval(createFloatingEmoji, 600);
-
-function nextScreen(screenNum) {
+// --- 2. Navigation ---
+function nextScreen(num) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(`screen${screenNum}`).classList.add('active');
+    document.getElementById(`screen${num}`).classList.add('active');
 }
-setTimeout(() => nextScreen(2), 3500);
+// Removed the auto-timer since we now have a button on the first slide!
 
-// --- 3. Interaction Logic ---
+// --- 3. Cake Logic ---
 let cakeStep = 0;
 function handleCake() {
+    const candle = document.getElementById('candle');
+    const flame = document.querySelector('.flame');
     const btn = document.getElementById('cake-action-btn');
-    const status = document.getElementById('cake-status');
     if (cakeStep === 0) {
-        document.getElementById('candle').classList.remove('hidden');
-        status.innerText = "Needs some light! ✨";
-        btn.innerText = "Light the Candle";
+        candle.classList.remove('hidden');
+        btn.innerText = "Light Candle";
     } else if (cakeStep === 1) {
-        document.querySelector('.flame').classList.remove('hidden');
-        status.innerText = "Make a wish! 🎂";
+        flame.classList.remove('hidden');
         btn.innerText = "Cut the Cake";
     } else if (cakeStep === 2) {
-        document.getElementById('cake-img').src = "pic2.jpeg"; 
-        document.getElementById('candle').classList.add('hidden');
-        status.innerText = "Yummy!";
-        btn.innerText = "Pop some balloons! →";
+        document.getElementById('cake-img').src = "pic2.jpeg";
+        candle.classList.add('hidden');
+        btn.innerText = "See Moments →";
     } else { nextScreen(4); }
     cakeStep++;
 }
 
-let poppedCount = 0;
+// --- 4. Balloons ---
+let popped = 0;
 const messages = ["You", "are", "the", "Best Bacha!"];
 function pop(el) {
     if(el.style.visibility === 'hidden') return;
     el.style.visibility = 'hidden';
     const span = document.createElement('span');
-    span.innerText = messages[poppedCount] + " ";
+    span.innerText = messages[popped] + " ";
     document.getElementById('balloon-msg').appendChild(span);
-    poppedCount++;
-    if(poppedCount === 4) document.getElementById('ball-next').classList.remove('hidden');
+    popped++;
+    if(popped === 4) {
+        document.getElementById('bacha-pic').classList.remove('hidden'); // SHOWS THE PIC
+        document.getElementById('ball-next').classList.remove('hidden');
+    }
 }
+
+function createEmoji() {
+    const emojis = ['❤️', '🥰', '💖', '✨', '🌸'];
+    const el = document.createElement('div');
+    el.className = 'floating-item';
+    el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + '%';
+    document.querySelector('.bg-elements').appendChild(el);
+    setTimeout(() => el.remove(), 6000);
+}
+setInterval(createEmoji, 750);
