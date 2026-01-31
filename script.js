@@ -1,6 +1,6 @@
 // --- 0. Password Logic ---
 function checkPassword() {
-    const userPass = prompt("Enter the secret code to open your surprise:");
+    const userPass = prompt("Enter the secret code to open your surprise(Hint 4digits pin):");
     if (userPass === "0102") {
         document.getElementById('main-content').classList.remove('hidden');
         startPlaylist();
@@ -78,3 +78,4 @@ function createEmoji() {
     setTimeout(() => el.remove(), 6000);
 }
 setInterval(createEmoji, 750);
+
